@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff4df">
+  <title>にこにこひろば 🌈</title>
+  <style>
+    :root{--ink:#493d58;--pink:#ff8fa3;--yellow:#ffd66b;--mint:#9ce4cb;--lav:#c8b8ff;--paper:#fffdf8}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;color:var(--ink);font-family:"Hiragino Maru Gothic ProN","Yu Gothic",Meiryo,sans-serif;background:radial-gradient(circle at 12% 12%,#ffe5ec 0 8%,transparent 8.5%),radial-gradient(circle at 88% 18%,#e3f8ef 0 9%,transparent 9.5%),linear-gradient(150deg,#fff4df,#f8f0ff 55%,#e9f9f5)}
+    button,input{font:inherit}
+    button{cursor:pointer;border:0;border-radius:999px;padding:13px 19px;font-weight:800;color:var(--ink);background:#fff;box-shadow:0 4px 0 #e8dced;transition:transform .15s,box-shadow .15s}
+    button:active{transform:translateY(3px);box-shadow:0 1px 0 #e8dced}
+    button:focus-visible,input:focus-visible{outline:3px solid #8065d8;outline-offset:3px}
+    .wrap{width:min(760px,100%);margin:auto;padding:26px 18px 42px}
+    header{text-align:center;margin:10px 0 22px}
+    .eyebrow{font-size:.85rem;font-weight:800;letter-spacing:.12em;color:#8b75b9}
+    h1{font-size:clamp(2rem,8vw,3.4rem);margin:7px 0;color:#6b5798}
+    .lead{font-size:1.05rem;line-height:1.8;margin:0 auto;max-width:34em}
+    .card{background:rgba(255,255,255,.88);border:2px solid white;border-radius:28px;padding:clamp(18px,4vw,28px);margin:16px 0;box-shadow:0 12px 32px #8065d81a}
+    .face-stage{text-align:center;position:relative;overflow:hidden}
+    .face{font-size:clamp(5rem,22vw,8rem);line-height:1.25;display:block;filter:drop-shadow(0 7px 0 #f5e8ff);transition:transform .25s}
+    .face.bounce{animation:bounce .55s ease}
+    @keyframes bounce{0%,100%{transform:translateY(0) rotate(0)}35%{transform:translateY(-18px) rotate(-8deg)}70%{transform:translateY(-5px) rotate(7deg)}}
+    .message{font-size:1.15rem;font-weight:800;min-height:2.8em;display:grid;place-items:center;line-height:1.6;margin:10px auto 0}
+    .tiny{font-size:.9rem;color:#82768d;line-height:1.7}
+    h2{font-size:1.2rem;margin:0 0 13px}
+    .feelings{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+    .feeling{border-radius:18px;padding:12px 4px;background:#fff8ed;box-shadow:none;border:2px solid transparent}
+    .feeling span{display:block;font-size:1.8rem;margin-bottom:5px}
+    .feeling small{font-size:.8rem}
+    .feeling[aria-pressed="true"]{border-color:#aa92ee;background:#f5f0ff}
+    .actions{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+    .primary{background:var(--pink);color:#fff;box-shadow:0 4px 0 #e87991}
+    .secondary{background:#e5f8ef;box-shadow:0 4px 0 #b8e5d4}
+    .breath{text-align:center}
+    .bubble{width:112px;height:112px;border-radius:50%;margin:16px auto;background:radial-gradient(circle at 35% 30%,#fff,#bfe9ff 65%,#a7c7ff);display:grid;place-items:center;font-size:1rem;font-weight:800;box-shadow:inset -8px -10px 18px #8db4e955;transform:scale(.82)}
+    .bubble.go{animation:breathe 5s ease-in-out infinite alternate}
+    @keyframes breathe{from{transform:scale(.75)}to{transform:scale(1.22)}}
+    .range-row{display:flex;align-items:center;gap:12px;justify-content:center;margin:10px 0}
+    input[type=range]{width:min(230px,55%);accent-color:#9279d5}
+    .joke{background:#fff8df;border-radius:18px;padding:15px;margin:14px 0;min-height:58px;font-weight:800;line-height:1.6}
+    .stars{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+    .star{font-size:1.7rem;padding:6px;background:transparent;box-shadow:none}
+    footer{text-align:center;font-size:.82rem;color:#8a7c98;line-height:1.7;padding:12px}
+    @media(max-width:430px){.feelings{grid-template-columns:repeat(2,1fr)}.wrap{padding-inline:14px}.card{border-radius:23px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <div class="eyebrow">きみのこころの ひとやすみスポット</div>
+      <h1>にこにこひろば 🌈</h1>
+      <p class="lead">かなしいときも、ないちゃうときも、だいじょうぶ。<br>ここで ちょっと ひとやすみしよう。</p>
+    </header>
+
+    <section class="card face-stage" aria-live="polite">
+      <span class="face" id="face" aria-hidden="true">🐻</span>
+      <div class="message" id="message">くまさんが そばにいるよ。ゆっくりでいいよ。</div>
+      <p class="tiny">えがおにならなくても だいじょうぶ。きみのきもちは たいせつだよ。</p>
+    </section>
+
+    <section class="card">
+      <h2>いまの きもちは どれかな？</h2>
+      <div class="feelings" role="group" aria-label="いまの気持ち">
+        <button class="feeling" data-feel="かなしい" data-face="🥺" aria-pressed="false"><span>🥺</span><small>かなしい</small></button>
+        <button class="feeling" data-feel="おこってる" data-face="😤" aria-pressed="false"><span>😤</span><small>おこってる</small></button>
+        <button class="feeling" data-feel="つかれた" data-face="😴" aria-pressed="false"><span>😴</span><small>つかれた</small></button>
+        <button class="feeling" data-feel="よくわからない" data-face="🤔" aria-pressed="false"><span>🤔</span><small>わからない</small></button>
+      </div>
+      <p class="tiny" id="feelingNote" aria-live="polite">えらんでも、えらばなくても OK！</p>
+    </section>
+
+    <section class="card breath">
+      <h2>ふわふわ ふうせん呼吸 🎈</h2>
+      <p class="tiny">ふうせんにあわせて、すって……はいて……。できるところだけでいいよ。</p>
+      <div class="bubble" id="bubble" aria-hidden="true">すって</div>
+      <div class="actions">
+        <button class="secondary" id="breathBtn">いっしょに やってみる</button>
+        <button id="stopBreath">おしまい</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>くすっと おたのしみボタン 🤭</h2>
+      <p class="tiny">なにがでるかは おたのしみ！</p>
+      <div class="joke" id="joke" aria-live="polite">ボタンをおすと、ふしぎなことばが とびだすよ。</div>
+      <div class="actions">
+        <button class="primary" id="jokeBtn">おたのしみ！</button>
+        <button class="secondary" id="hugBtn">ぎゅーっ 🧸</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>ほしを あつめよう ⭐</h2>
+      <p class="tiny">ほしをタップすると、キラキラがふえるよ。</p>
+      <div class="stars" id="stars" aria-label="星を集める">
+        <button class="star" aria-label="星をひろう">☆</button><button class="star" aria-label="星をひろう">☆</button><button class="star" aria-label="星をひろう">☆</button><button class="star" aria-label="星をひろう">☆</button><button class="star" aria-label="星をひろう">☆</button>
+      </div>
+      <p class="tiny" id="starCount" aria-live="polite">ひろった ほし：0こ</p>
+    </section>
+
+    <footer>かなしい気持ちは、信頼できる大人にお話ししてもいいんだよ。<br>このページは、きみのペースをたいせつにする場所です。</footer>
+  </main>
+  <script>
+    const face = document.getElementById('face');
+    const message = document.getElementById('message');
+    const feelingNote = document.getElementById('feelingNote');
+    const messages = {
+      'かなしい':'かなしいんだね。ここにいていいよ。','おこってる':'ぷんぷんしてもいいよ。ゆっくりしよう。','つかれた':'いっぱいがんばったね。ひとやすみ！','よくわからない':'わからない気持ちも、だいじな気持ちだよ。'
+    };
+    document.querySelectorAll('.feeling').forEach(button => button.addEventListener('click', () => {
+      document.querySelectorAll('.feeling').forEach(b => b.setAttribute('aria-pressed','false'));
+      button.setAttribute('aria-pressed','true');
+      face.textContent = button.dataset.face;
+      message.textContent = messages[button.dataset.feel];
+      feelingNote.textContent = button.dataset.feel + ' 気分なんだね。おしえてくれて ありがとう。';
+      bounce();
+    }));
+    function bounce(){face.classList.remove('bounce'); void face.offsetWidth; face.classList.add('bounce');}
+    const jokes = ['トマトが とことこ……トマトっと！ 🍅','おふとんが いいました。「もう ねころんで〜」 🛏️','ペンギンが すべって ぺんぎんぎん！ 🐧','バナナが ころんだ！……かわいい！ 🍌','たこが おどると、たこおどり〜 🐙','きょうの きみは、がんばりメダル 100まい！ 🏅'];
+    document.getElementById('jokeBtn').addEventListener('click', () => {
+      document.getElementById('joke').textContent = jokes[Math.floor(Math.random()*jokes.length)];
+      face.textContent = '😆'; message.textContent = 'ちょっとでも ふふっと なったかな？'; bounce();
+    });
+    document.getElementById('hugBtn').addEventListener('click', () => {
+      face.textContent = '🧸'; message.textContent = 'ぎゅーーーっ！ あったかパワーを おくるね。'; bounce();
+    });
+    const bubble = document.getElementById('bubble');
+    const breathBtn = document.getElementById('breathBtn');
+    let breathingTimer;
+    breathBtn.addEventListener('click', () => {
+      clearInterval(breathingTimer); bubble.classList.add('go'); bubble.textContent = 'すって';
+      let inhale = true;
+      breathingTimer = setInterval(() => { inhale = !inhale; bubble.textContent = inhale ? 'すって' : 'はいて'; }, 2500);
+      breathBtn.textContent = '呼吸中…';
+    });
+    function stopBreath(){clearInterval(breathingTimer);bubble.classList.remove('go');bubble.textContent='すって';breathBtn.textContent='いっしょに やってみる';}
+    document.getElementById('stopBreath').addEventListener('click', stopBreath);
+    let count = 0;
+    document.querySelectorAll('.star').forEach(star => star.addEventListener('click', () => {
+      if(star.textContent === '☆'){star.textContent='⭐';count++;document.getElementById('starCount').textContent='ひろった ほし：'+count+'こ';}
+      else{star.textContent='☆';count--;document.getElementById('starCount').textContent='ひろった ほし：'+count+'こ';}
+    }));
+  </script>
+</body>
+</html>
